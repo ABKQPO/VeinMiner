@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/VeinMiner.api.iml" filepath="$PROJECT_DIR$/.idea/modules/VeinMiner.api.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/VeinMiner.ideVirtualMain.iml" filepath="$PROJECT_DIR$/.idea/modules/VeinMiner.ideVirtualMain.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/VeinMiner.main.iml" filepath="$PROJECT_DIR$/.idea/modules/VeinMiner.main.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/VeinMiner.mcLauncher.iml" filepath="$PROJECT_DIR$/.idea/modules/VeinMiner.mcLauncher.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/VeinMiner.patchedMc.iml" filepath="$PROJECT_DIR$/.idea/modules/VeinMiner.patchedMc.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/VeinMiner.test.iml" filepath="$PROJECT_DIR$/.idea/modules/VeinMiner.test.iml" />
+    </modules>
+  </component>
+</project>
