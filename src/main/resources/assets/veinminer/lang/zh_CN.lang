@@ -1,6 +1,11 @@
+key.categories.veinminer=连锁挖掘
 key.veinmine.toggle=连锁开关
 key.veinminer.increaseMax=增加最大连锁数量
 key.veinminer.decreaseMax=减小最大连锁数量
 key.veinminer.increaseGap=增加最大方块间隔
 key.veinminer.decreaseGap=减小最大方块间隔
 key.veinminer.precise=切换精确模式
+veinminer.amount=当前最大连锁数量：%s
+veinminer.gap=当前最大方块间隔：%s
+veinminer.preciseOn=精确模式：开
+veinminer.preciseOff=精确模式：关

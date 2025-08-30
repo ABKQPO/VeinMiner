@@ -16,7 +16,7 @@ public class KeyBindings {
     public static KeyBinding togglePrecise;
 
     public static void init() {
-        toggleVeinMine = new KeyBinding("key.veinmine.toggle", Keyboard.KEY_V, "key.categories.gameplay");
+        toggleVeinMine = new KeyBinding("key.veinmine.toggle", Keyboard.KEY_V, "key.categories.veinminer");
         increaseMax = new KeyBinding("key.veinminer.increaseMax", Keyboard.KEY_UP, "key.categories.veinminer");
         decreaseMax = new KeyBinding("key.veinminer.decreaseMax", Keyboard.KEY_DOWN, "key.categories.veinminer");
         increaseGap = new KeyBinding("key.veinminer.increaseGap", Keyboard.KEY_RIGHT, "key.categories.veinminer");

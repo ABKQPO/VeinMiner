@@ -8,9 +8,12 @@ import net.minecraftforge.common.config.Configuration;
 public class Config {
 
     // Vein Miner
-    public static int maxAmount = 327670;
-    public static int maxGap = 32;
+    public static int maxAmount = 32767;
+    public static int maxGap = 3;
     public static boolean preciseMode = true;
+
+    public static int serverMaxAmount;
+    public static int serverMaxGap;
 
     public static Configuration config;
 

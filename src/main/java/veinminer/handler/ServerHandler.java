@@ -29,10 +29,20 @@ import net.minecraftforge.oredict.OreDictionary;
 import com.github.bsideup.jabel.Desugar;
 
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
+import cpw.mods.fml.common.gameevent.PlayerEvent;
 import veinminer.ItemStackWrapper;
 import veinminer.VeinMiningProperties;
+import veinminer.config.Config;
+import veinminer.packet.PacketToggleVeinMine;
 
-public class BlockBreakHandler {
+public class ServerHandler {
+
+    @SubscribeEvent
+    public void onPlayerLogin(PlayerEvent.PlayerLoggedInEvent event) {
+        if (event.player instanceof EntityPlayerMP player) {
+            network.sendTo(new PacketToggleVeinMine(Config.maxAmount, Config.maxGap, Config.preciseMode), player);
+        }
+    }
 
     @SubscribeEvent
     public void onBlockBreak(BlockEvent.BreakEvent event) {
@@ -66,8 +76,13 @@ public class BlockBreakHandler {
         Set<Long> visited = new HashSet<>();
         int cleared = 0;
         int blocksSinceHunger = 0;
-        int toolMaxDamage = stack.getMaxDamage();
-        int toolDamage = stack.getItemDamage();
+        int toolMaxDamage = 0;
+        int toolDamage = 0;
+
+        if (stack != null) {
+            toolMaxDamage = stack.getMaxDamage();
+            toolDamage = stack.getItemDamage();
+        }
 
         Block targetBlock = world.getBlock(x, y, z);
         int targetMeta = world.getBlockMetadata(x, y, z);
@@ -77,7 +92,8 @@ public class BlockBreakHandler {
         queue.add(new Node(x, y, z, 0));
 
         while (!queue.isEmpty() && cleared < amount) {
-            if (!player.isSneaking()) break;
+            VeinMiningProperties props = VeinMiningProperties.get(player);
+            if (!props.isEnabled()) break;
 
             Node node = queue.poll();
             int px = node.x, py = node.y, pz = node.z;

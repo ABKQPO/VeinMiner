@@ -1,31 +1,19 @@
 package veinminer;
 
-import net.minecraft.client.renderer.texture.IIconRegister;
-import net.minecraft.util.IIcon;
-import net.minecraftforge.client.event.TextureStitchEvent;
-
-import cpw.mods.fml.common.eventhandler.SubscribeEvent;
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
+import cpw.mods.fml.common.FMLCommonHandler;
+import cpw.mods.fml.common.event.FMLPreInitializationEvent;
+import veinminer.handler.KeyInputHandler;
+import veinminer.key.KeyBindings;
 
 public class ClientProxy extends CommonProxy {
 
-    @SubscribeEvent
-    @SideOnly(Side.CLIENT)
-    public void onTextureStitch(TextureStitchEvent.Pre event) {
-        if (event.map.getTextureType() == 1) {
-            registerAllIcons(event.map);
-        }
-    }
+    @Override
+    public void preInit(FMLPreInitializationEvent event) {
+        super.preInit(event);
+        KeyBindings.init();
 
-    public static String haloNoiseIconTexture = "nei:halonoise";
-    public static IIcon haloNoiseIcon;
-
-    public static String cheatWrenchIconTexture = "nei:cheat_speical";
-    public static IIcon cheatWrenchIcon;
-
-    public static void registerAllIcons(IIconRegister ir) {
-        haloNoiseIcon = ir.registerIcon(haloNoiseIconTexture);
-        cheatWrenchIcon = ir.registerIcon(cheatWrenchIconTexture);
+        FMLCommonHandler.instance()
+            .bus()
+            .register(new KeyInputHandler());
     }
 }

@@ -19,9 +19,7 @@ import cpw.mods.fml.common.network.simpleimpl.SimpleNetworkWrapper;
 import cpw.mods.fml.relauncher.Side;
 import veinminer.config.Config;
 import veinminer.config.ReloadConfig;
-import veinminer.handler.BlockBreakHandler;
-import veinminer.handler.KeyInputHandler;
-import veinminer.key.KeyBindings;
+import veinminer.handler.ServerHandler;
 import veinminer.packet.PacketEnableVeinMining;
 import veinminer.packet.PacketToggleVeinMine;
 
@@ -66,17 +64,20 @@ public class VeinMiner {
     public void preInit(FMLPreInitializationEvent event) {
         network = NetworkRegistry.INSTANCE.newSimpleChannel(MODID);
         proxy.preInit(event);
+
         Config.init(event.getSuggestedConfigurationFile());
+
         FMLCommonHandler.instance()
             .bus()
             .register(new ConfigEventHandler());
+
         network.registerMessage(PacketToggleVeinMine.Handler.class, PacketToggleVeinMine.class, 0, Side.SERVER);
-        network.registerMessage(PacketEnableVeinMining.Handler.class, PacketEnableVeinMining.class, 1, Side.SERVER);
-        KeyBindings.init();
+        network.registerMessage(PacketToggleVeinMine.Handler.class, PacketToggleVeinMine.class, 1, Side.CLIENT);
+        network.registerMessage(PacketEnableVeinMining.Handler.class, PacketEnableVeinMining.class, 2, Side.SERVER);
+        MinecraftForge.EVENT_BUS.register(new ServerHandler());
         FMLCommonHandler.instance()
             .bus()
-            .register(new KeyInputHandler());
-        MinecraftForge.EVENT_BUS.register(new BlockBreakHandler());
+            .register(new ServerHandler());
     }
 
     public static class ConfigEventHandler {

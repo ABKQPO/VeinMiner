@@ -1,0 +1,11 @@
+key.categories.veinminer=Vein Miner
+key.veinmine.toggle=Toggle Vein Mining
+key.veinminer.increaseMax=Increase Max Vein Amount
+key.veinminer.decreaseMax=Decrease Max Vein Amount
+key.veinminer.increaseGap=Increase Max Block Gap
+key.veinminer.decreaseGap=Decrease Max Block Gap
+key.veinminer.precise=Toggle Precise Mode
+veinminer.amount=Current Max Vein Amount: %s
+veinminer.gap=Current Max Block Gap: %s
+veinminer.preciseOn=Precise Mode: On
+veinminer.preciseOff=Precise Mode: Off

@@ -1,6 +1,6 @@
 package veinminer.packet;
 
-import net.minecraft.entity.player.EntityPlayerMP;
+import net.minecraft.entity.player.EntityPlayer;
 
 import cpw.mods.fml.common.network.simpleimpl.*;
 import cpw.mods.fml.common.network.simpleimpl.IMessage;
@@ -11,29 +11,29 @@ import veinminer.config.Config;
 
 public class PacketToggleVeinMine implements IMessage {
 
-    private int clientMaxAmount;
-    private int clientMaxGap;
+    private int maxAmount;
+    private int maxGap;
     private boolean clientPrecise;
 
     public PacketToggleVeinMine() {}
 
     public PacketToggleVeinMine(int maxAmount, int maxGap, boolean precise) {
-        this.clientMaxAmount = maxAmount;
-        this.clientMaxGap = maxGap;
+        this.maxAmount = maxAmount;
+        this.maxGap = maxGap;
         this.clientPrecise = precise;
     }
 
     @Override
     public void toBytes(ByteBuf buf) {
-        buf.writeInt(clientMaxAmount);
-        buf.writeInt(clientMaxGap);
+        buf.writeInt(maxAmount);
+        buf.writeInt(maxGap);
         buf.writeBoolean(clientPrecise);
     }
 
     @Override
     public void fromBytes(ByteBuf buf) {
-        clientMaxAmount = buf.readInt();
-        clientMaxGap = buf.readInt();
+        maxAmount = buf.readInt();
+        maxGap = buf.readInt();
         clientPrecise = buf.readBoolean();
     }
 
@@ -41,21 +41,30 @@ public class PacketToggleVeinMine implements IMessage {
 
         @Override
         public IMessage onMessage(PacketToggleVeinMine msg, MessageContext ctx) {
-            EntityPlayerMP player = ctx.getServerHandler().playerEntity;
+            if (ctx.side.isServer()) {
+                EntityPlayer player = ctx.getServerHandler().playerEntity;
 
-            int serverMaxAmount = Config.maxAmount;
-            int serverMaxGap = Config.maxGap;
+                if (VeinMiningProperties.get(player) == null) {
+                    VeinMiningProperties.register(player);
+                }
 
-            int finalAmount = Math.min(msg.clientMaxAmount, serverMaxAmount);
-            int finalGap = Math.min(msg.clientMaxGap, serverMaxGap);
+                int maxAmount = Config.maxAmount;
+                int maxGap = Config.maxGap;
 
-            boolean finalPrecise = msg.clientPrecise;
+                int finalAmount = Math.min(msg.maxAmount, maxAmount);
+                int finalGap = Math.min(msg.maxGap, maxGap);
 
-            VeinMiningProperties props = VeinMiningProperties.get(player);
-            if (props != null) {
-                props.setMaxAmount(finalAmount);
-                props.setMaxGap(finalGap);
-                props.setPreciseMode(finalPrecise);
+                boolean finalPrecise = msg.clientPrecise;
+
+                VeinMiningProperties props = VeinMiningProperties.get(player);
+                if (props != null) {
+                    props.setMaxAmount(finalAmount);
+                    props.setMaxGap(finalGap);
+                    props.setPreciseMode(finalPrecise);
+                }
+            } else if (ctx.side.isClient()) {
+                Config.serverMaxAmount = msg.maxAmount;
+                Config.serverMaxGap = msg.maxGap;
             }
             return null;
         }
